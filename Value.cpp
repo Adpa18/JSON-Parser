@@ -2,21 +2,26 @@
 // Created by wery_a on 23/12/16.
 //
 
+#include <sstream>
 #include "Value.hpp"
 #include "Array.hpp"
 #include "Object.hpp"
 
 namespace JSON {
     Value::~Value() {
-        switch (type) {
+        deleteValue();
+    }
+
+    void Value::deleteValue() {
+        switch (m_type) {
             case STRING:
-                delete value.s;
+                delete m_value.s;
                 break;
             case ARRAY:
-                delete value.array;
+                delete m_value.array;
                 break;
             case OBJECT:
-                delete value.object;
+                delete m_value.object;
                 break;
             default:
                 break;
@@ -24,64 +29,166 @@ namespace JSON {
     }
 
     Value::Value(char value) {
-        type = CHAR;
-        this->value.c = value;
+        m_type = CHAR;
+        this->m_value.c = value;
     }
 
     Value::Value(int value) {
-        type = INT;
-        this->value.i = value;
+        m_type = INT;
+        this->m_value.i = value;
     }
 
     Value::Value(float value) {
-        type = FLOAT;
-        this->value.f = value;
+        m_type = FLOAT;
+        this->m_value.f = value;
     }
 
     Value::Value(double value) {
-        type = DOUBLE;
-        this->value.d = value;
+        m_type = DOUBLE;
+        this->m_value.d = value;
     }
 
     Value::Value(std::string value) {
-        type = STRING;
-        this->value.s = new std::string(value);
+        m_type = STRING;
+        this->m_value.s = new std::string(value);
     }
 
     Value::Value(Array *value) {
-        type = ARRAY;
-        this->value.array = value;
+        m_type = ARRAY;
+        this->m_value.array = value;
     }
 
     Value::Value(Object *value) {
-        type = OBJECT;
-        this->value.object = value;
+        m_type = OBJECT;
+        this->m_value.object = value;
+    }
+
+    Value   &Value::operator=(char value) {
+        deleteValue();
+        m_type = CHAR;
+        this->m_value.c = value;
+        return *this;
+    }
+
+    Value   &Value::operator=(int value) {
+        deleteValue();
+        m_type = INT;
+        this->m_value.i = value;
+        return *this;
+    }
+
+    Value   &Value::operator=(float value) {
+        deleteValue();
+        m_type = FLOAT;
+        this->m_value.f = value;
+        return *this;
+    }
+
+    Value   &Value::operator=(double value) {
+        deleteValue();
+        m_type = DOUBLE;
+        this->m_value.d = value;
+        return *this;
+    }
+
+    Value   &Value::operator=(std::string value) {
+        deleteValue();
+        m_type = STRING;
+        this->m_value.s = new std::string(value);
+        return *this;
+    }
+
+    Value   &Value::operator=(Array *value) {
+        deleteValue();
+        m_type = ARRAY;
+        this->m_value.array = value;
+        return *this;
+    }
+
+    Value   &Value::operator=(Object *value) {
+        deleteValue();
+        m_type = OBJECT;
+        this->m_value.object = value;
+        return *this;
+    }
+
+    ValueType Value::GetType() const {
+        return m_type;
+    }
+
+    char Value::GetChar() const {
+        if (m_type != CHAR) {
+            throw std::runtime_error("Bad type, Cannot get char");
+        }
+        return m_value.c;
+    }
+
+    int Value::GetInt() const {
+        if (m_type != INT) {
+            throw std::runtime_error("Bad type, Cannot get int");
+        }
+        return m_value.i;
+    }
+
+    float Value::GetFloat() const {
+        if (m_type != FLOAT) {
+            throw std::runtime_error("Bad type, Cannot get float");
+        }
+        return m_value.f;
+    }
+
+    double Value::GetDouble() const {
+        if (m_type != DOUBLE) {
+            throw std::runtime_error("Bad type, Cannot get double");
+        }
+        return m_value.d;
+    }
+
+    std::string &Value::GetString() const {
+        if (m_type != STRING) {
+            throw std::runtime_error("Bad type, Cannot get string");
+        }
+        return *m_value.s;
+    }
+
+    Array &Value::GetArray() const {
+        if (m_type != ARRAY) {
+            throw std::runtime_error("Bad type, Cannot get Array");
+        }
+        return *m_value.array;
+    }
+
+    Object &Value::GetObject() const {
+        if (m_type != OBJECT) {
+            throw std::runtime_error("Bad type, Cannot get Object");
+        }
+        return *m_value.object;
     }
 
     std::string const Value::toString() const {
         std::stringstream ss;
 
-        switch (type) {
+        switch (m_type) {
             case CHAR:
-                ss << value.c;
+                ss << m_value.c;
                 break;
             case INT:
-                ss << value.i;
+                ss << m_value.i;
                 break;
             case FLOAT:
-                ss << value.f;
+                ss << m_value.f;
                 break;
             case DOUBLE:
-                ss << value.d;
+                ss << m_value.d;
                 break;
             case STRING:
-                ss << "\"" << *(value.s) << "\"";
+                ss << "\"" << *(m_value.s) << "\"";
                 break;
             case ARRAY:
-                ss << *(value.array);
+                ss << *(m_value.array);
                 break;
             case OBJECT:
-                ss << *(value.object);
+                ss << *(m_value.object);
                 break;
             default:
                 throw std::runtime_error("Bad Type");

@@ -15,6 +15,7 @@ namespace JSON {
         typedef std::vector<Value*>  ValueList;
         Array();
         virtual ~Array();
+
     private:
         ValueList   m_array;
 
@@ -22,8 +23,19 @@ namespace JSON {
         ValueList   const &getValues() const;
 
     public:
-//        Value   &operator[](unsigned int i);
-//        const Value &operator[](unsigned int i) const;
+        ValueList   const &operator*() const;
+        Value       &operator[](unsigned int key);
+        Value       const &operator[](unsigned int key) const;
+
+    public:
+        Value       &get(unsigned int key) const;
+        char        get(unsigned int key, char &rvalue) const;
+        int         get(unsigned int key, int &rvalue) const;
+        float       get(unsigned int key, float &rvalue) const;
+        double      get(unsigned int key, double &rvalue) const;
+        std::string get(unsigned int key, std::string &rvalue) const;
+        Array       &get(unsigned int key, Array &rvalue) const;
+        Object      &get(unsigned int key, Object &rvalue) const;
 
     public:
         void push(Value *value);

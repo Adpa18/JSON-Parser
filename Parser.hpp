@@ -7,6 +7,7 @@
 
 #include <stack>
 #include "Object.hpp"
+#include "Array.hpp"
 
 namespace JSON {
     class Parser {
@@ -21,7 +22,7 @@ namespace JSON {
         Parser(std::string const &filename);
         ~Parser();
 
-        Object *Parse();
+        Object &Parse();
 
     private:
         std::ifstream   *m_file;

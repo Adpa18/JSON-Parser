@@ -4,7 +4,6 @@
 #include <list>
 #include <dirent.h>
 #include <cassert>
-#include <string>
 #include <fstream>
 #include <streambuf>
 
@@ -40,22 +39,22 @@ std::string readFile(std::string const &filename) {
 }
 
 void    UnitTests() {
-    std::list<std::string> files = getAllFilesRecurive("Tests");
-
-    unsigned nbTest = 0;
-    for (std::string file: files) {
-        JSON::Parser parser("Tests/" + file);
-        JSON::Object *object = parser.Parse();
-
-        std::stringstream ss;
-
-        ss << *object;
-        std::cout << object << std::endl;
-        std::cout << readFile("Results/" + file);
-//        assert(ss.str() == readFile("Results/" + file));
-        std::cout << "\t\033[1;34m" << file << " test " << ++nbTest <<  "/" << files.size() << " passed" << "\033[0m" << std::endl;
-        delete object;
-    }
+//    std::list<std::string> files = getAllFilesRecurive("Tests");
+//
+//    unsigned nbTest = 0;
+//    for (std::string file: files) {
+//        JSON::Parser parser("Tests/" + file);
+//        JSON::Object *object = parser.Parse();
+//
+//        std::stringstream ss;
+//
+//        ss << *object;
+//        std::cout << object << std::endl;
+//        std::cout << readFile("Results/" + file);
+////        assert(ss.str() == readFile("Results/" + file));
+//        std::cout << "\t\033[1;34m" << file << " test " << ++nbTest <<  "/" << files.size() << " passed" << "\033[0m" << std::endl;
+//        delete object;
+//    }
 }
 
 int main() {
@@ -75,9 +74,11 @@ int main() {
 //    UnitTests();
 
     JSON::Parser parser("test.json");
-    JSON::Object *object = parser.Parse();
+    JSON::Object object = parser.Parse();
     std::cout << object << std::endl;
-    std::cout << (*object)["toto"] << std::endl;
-    delete object;
+    std::cout << object["toto"] << std::endl;
+    object["toto"] = 3;
+    std::cout << object["toto"] << std::endl;
+    std::cout << object["tata"].GetArray()[0].GetString() << std::endl;
     return 0;
 }

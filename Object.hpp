@@ -7,7 +7,7 @@
 
 #include <map>
 #include "AObject.hpp"
-#include "Array.hpp"
+#include "Value.hpp"
 
 namespace JSON {
     class Object: public AObject {
@@ -22,26 +22,18 @@ namespace JSON {
     public:
         ValueMap    const &getValues() const;
         ValueMap    const &operator*() const;
-        Value       *&          operator[](std::string const &key);
-        Value       * const &   operator[](std::string const &key) const;
+        Value       &operator[](std::string const &key);
+        Value       const &operator[](std::string const &key) const;
 
     public:
-        Value       *get(std::string const &key) const;
+        Value       &get(std::string const &key) const;
         char        get(std::string const &key, char &rvalue) const;
         int         get(std::string const &key, int &rvalue) const;
         float       get(std::string const &key, float &rvalue) const;
         double      get(std::string const &key, double &rvalue) const;
         std::string get(std::string const &key, std::string &rvalue) const;
-        Array       *get(std::string const &key, Array *&rvalue) const;
-        Object      *get(std::string const &key, Object *&rvalue) const;
-
-        char        getChar(std::string const &key) const;
-        int         getInt(std::string const &key) const;
-        float       getFloat(std::string const &key) const;
-        double      getDouble(std::string const &key) const;
-        std::string getString(std::string const &key) const;
-        Array       *getArray(std::string const &key) const;
-        Object      *getObject(std::string const &key) const;
+        Array       &get(std::string const &key, Array &rvalue) const;
+        Object      &get(std::string const &key, Object &rvalue) const;
 
     public:
         void    push(std::string const &key, Value *value);

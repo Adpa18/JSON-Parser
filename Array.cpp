@@ -2,7 +2,9 @@
 // Created by wery_a on 22/12/16.
 //
 
+#include <sstream>
 #include "Array.hpp"
+#include "Object.hpp"
 
 namespace JSON {
     Array::Array() {
@@ -19,13 +21,60 @@ namespace JSON {
         return m_array;
     }
 
-//    Value& Array::operator[](unsigned int i) {
-//        return m_array[i];
-//    }
-//
-//    const Value& Array::operator[](unsigned int i) const {
-//        return m_array[i];
-//    }
+    Array::ValueList   const& Array::operator*() const {
+        return m_array;
+    }
+
+    Value& Array::operator[](unsigned int key) {
+        return *m_array[key];
+    }
+
+    const Value& Array::operator[](unsigned int key) const {
+        return *m_array[key];
+    }
+
+    Value& Array::get(unsigned int key) const {
+        if (key >= m_array.size() || m_array[key]->GetType() == UNKNOWN) {
+            throw std::runtime_error("Bad key " + key);
+        }
+        return *m_array[key];
+    }
+
+    char Array::get(unsigned int key, char &rvalue) const {
+        rvalue = get(key).GetChar();
+        return rvalue;
+    }
+
+    int Array::get(unsigned int key, int &rvalue) const {
+        rvalue = get(key).GetInt();
+        return rvalue;
+    }
+
+    float Array::get(unsigned int key, float &rvalue) const {
+        rvalue = get(key).GetFloat();
+        return rvalue;
+    }
+
+    double Array::get(unsigned int key, double &rvalue) const {
+        rvalue = get(key).GetDouble();
+        return rvalue;
+    }
+
+    std::string Array::get(unsigned int key, std::string &rvalue) const {
+        rvalue = get(key).GetString();
+        return rvalue;
+    }
+
+    Array &Array::get(unsigned int key, Array &rvalue) const {
+        rvalue = get(key).GetArray();
+        return rvalue;
+    }
+
+    Object &Array::get(unsigned int key, Object &rvalue) const {
+        rvalue = get(key).GetObject();
+        return rvalue;
+    }
+
 
     void Array::push(Value *value) {
         m_array.push_back(value);

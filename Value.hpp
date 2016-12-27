@@ -5,10 +5,8 @@
 #ifndef JSONPARSER_VALUE_HPP
 #define JSONPARSER_VALUE_HPP
 
-#include <iostream>
-#include <ostream>
 #include <string>
-#include <sstream>
+#include <ostream>
 
 namespace JSON {
     class Object;
@@ -33,7 +31,8 @@ namespace JSON {
         Object      *object;
     };
 
-    struct Value {
+    class Value {
+    public:
         Value(char value);
         Value(int value);
         Value(float value);
@@ -41,9 +40,33 @@ namespace JSON {
         Value(std::string value);
         Value(Array *value);
         Value(Object *value);
+
+        Value&operator=(char value);
+        Value&operator=(int value);
+        Value&operator=(float value);
+        Value&operator=(double value);
+        Value&operator=(std::string value);
+        Value&operator=(Array *value);
+        Value&operator=(Object *value);
+
         ~Value();
-        ValueType   type;
-        ValueValue  value;
+        void    deleteValue();
+
+    private:
+        ValueType   m_type;
+        ValueValue  m_value;
+
+    public:
+        ValueType   GetType() const;
+        char        GetChar() const;
+        int         GetInt() const;
+        float       GetFloat() const;
+        double      GetDouble() const;
+        std::string &GetString() const;
+        Array       &GetArray() const;
+        Object      &GetObject() const;
+
+    public:
         std::string const   toString() const;
         friend std::ostream& operator<<(std::ostream& os, const Value &value);
         friend std::ostream& operator<<(std::ostream& os, const Value *value);

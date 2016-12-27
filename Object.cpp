@@ -2,7 +2,9 @@
 // Created by wery_a on 18/12/16.
 //
 
+#include <sstream>
 #include "Object.hpp"
+#include "Array.hpp"
 
 namespace JSON {
     Object::Object() {
@@ -19,115 +21,59 @@ namespace JSON {
         return m_values;
     };
 
-    ValueMap    const& Object::operator*() const {
+    Object::ValueMap    const& Object::operator*() const {
         return m_values;
     }
 
-    Value*& Object::operator[](std::string const &key) {
-        return m_values[key];
+    Value& Object::operator[](std::string const &key) {
+        return get(key);
     }
 
-    Value* const & Object::operator[](std::string const &key) const {
-        return m_values.find(key)->second;
+    Value const & Object::operator[](std::string const &key) const {
+        return get(key);
     }
 
-    Value *Object::get(std::string const &key) const {
+    Value &Object::get(std::string const &key) const {
         ValueMap::const_iterator it = m_values.find(key);
-        if (it == m_values.end() || it->second->type != CHAR) {
+        if (it == m_values.end() || it->second->GetType() == UNKNOWN) {
             throw std::runtime_error("Bad key " + it->first);
         }
-        return it->second;
+        return *it->second;
     }
 
     char Object::get(std::string const &key, char &rvalue) const {
-        rvalue = getChar(key);
+        rvalue = get(key).GetChar();
         return rvalue;
     }
 
     int Object::get(std::string const &key, int &rvalue) const {
-        rvalue = getInt(key);
+        rvalue = get(key).GetInt();
         return rvalue;
     }
 
     float Object::get(std::string const &key, float &rvalue) const {
-        rvalue = getFloat(key);
+        rvalue = get(key).GetFloat();
         return rvalue;
     }
 
     double Object::get(std::string const &key, double &rvalue) const {
-        rvalue = getDouble(key);
+        rvalue = get(key).GetDouble();
         return rvalue;
     }
 
     std::string Object::get(std::string const &key, std::string &rvalue) const {
-        rvalue = getString(key);
+        rvalue = get(key).GetString();
         return rvalue;
     }
 
-    Array *Object::get(std::string const &key, Array *&rvalue) const {
-        rvalue = getArray(key);
+    Array &Object::get(std::string const &key, Array &rvalue) const {
+        rvalue = get(key).GetArray();
         return rvalue;
     }
 
-    Object *Object::get(std::string const &key, Object *&rvalue) const {
-        rvalue = getObject(key);
+    Object &Object::get(std::string const &key, Object &rvalue) const {
+        rvalue = get(key).GetObject();
         return rvalue;
-    }
-
-    char Object::getChar(std::string const &key) const {
-        ValueMap::const_iterator it = m_values.find(key);
-        if (it == m_values.end() || it->second->type != CHAR) {
-            return 0;
-        }
-        return it->second->value.c;
-    }
-
-    int Object::getInt(std::string const &key) const {
-        ValueMap::const_iterator it = m_values.find(key);
-        if (it == m_values.end() || it->second->type != INT) {
-            return 0;
-        }
-        return it->second->value.i;
-    }
-
-    float Object::getFloat(std::string const &key) const {
-        ValueMap::const_iterator it = m_values.find(key);
-        if (it == m_values.end() || it->second->type != FLOAT) {
-            return 0;
-        }
-        return it->second->value.f;
-    }
-
-    double Object::getDouble(std::string const &key) const {
-        ValueMap::const_iterator it = m_values.find(key);
-        if (it == m_values.end() || it->second->type != DOUBLE) {
-            return 0;
-        }
-        return it->second->value.d;
-    }
-
-    std::string Object::getString(std::string const &key) const {
-        ValueMap::const_iterator it = m_values.find(key);
-        if (it == m_values.end() || it->second->type != STRING) {
-            return 0;
-        }
-        return *it->second->value.s;
-    }
-
-    Array *Object::getArray(std::string const &key) const {
-        ValueMap::const_iterator it = m_values.find(key);
-        if (it == m_values.end() || it->second->type != ARRAY) {
-            return 0;
-        }
-        return it->second->value.array;
-    }
-
-    Object *Object::getObject(std::string const &key) const {
-        ValueMap::const_iterator it = m_values.find(key);
-        if (it == m_values.end() || it->second->type != OBJECT) {
-            return 0;
-        }
-        return it->second->value.object;
     }
 
     void Object::push(std::string const &key, Value *value) {

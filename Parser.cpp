@@ -194,9 +194,9 @@ namespace JSON {
         }
     }
 
-    Object *Parser::Parse() {
+    Object &Parser::Parse() {
         if (!m_file->is_open()) {
-            return nullptr;
+            throw std::runtime_error("Cannot open file");
         }
         std::string line;
         while (getline(*m_file, line)) {
@@ -204,6 +204,6 @@ namespace JSON {
                 act(c);
             }
         }
-        return m_json;
+        return *m_json;
     }
 }
