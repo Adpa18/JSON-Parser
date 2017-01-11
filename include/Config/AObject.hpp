@@ -7,7 +7,7 @@
 
 #include <string>
 
-namespace JSON {
+namespace Config {
     class Array;
     class Object;
     class AObject {

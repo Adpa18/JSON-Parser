@@ -8,7 +8,7 @@
 #include <string>
 #include <ostream>
 
-namespace JSON {
+namespace Config {
     class Object;
     class Array;
     enum ValueType {

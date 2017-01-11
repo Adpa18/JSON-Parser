@@ -3,10 +3,10 @@
 //
 
 #include <sstream>
-#include "Object.hpp"
-#include "Array.hpp"
+#include "../../include/Config/Object.hpp"
+#include "../../include/Config/Array.hpp"
 
-namespace JSON {
+namespace Config {
     Object::Object() {
 
     }

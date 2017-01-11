@@ -3,7 +3,7 @@
 //
 #include <iostream>
 #include <fstream>
-#include "Parser.hpp"
+#include "../include/Parser.hpp"
 
 //#define DEBUG_MODE
 
@@ -29,9 +29,9 @@ namespace JSON {
 
     void Parser::openObject() {
         Debug("Openning Object");
-        m_parents.push(new Object());
+        m_parents.push(new Config::Object());
         if (m_json == nullptr) {
-            m_json = dynamic_cast<Object *>(m_parents.top());
+            m_json = dynamic_cast<Config::Object *>(m_parents.top());
         }
         m_type.push(ObjectType);
         m_type.push(KeyType);
@@ -44,25 +44,25 @@ namespace JSON {
             throw std::runtime_error("Bad type need ObjectType");
         }
         m_type.pop();
-        AObject *current = m_parents.top();
+        Config::AObject *current = m_parents.top();
         m_parents.pop();
         if (m_parents.empty()) {
             Debug("Object end");
             return;
         }
-        AObject *parent = m_parents.top();
-        Array *parentArray = dynamic_cast<Array*>(parent);
+        Config::AObject *parent = m_parents.top();
+        Config::Array *parentArray = dynamic_cast<Config::Array*>(parent);
         if (parentArray) {
-            parent->push(dynamic_cast<Object *>(current));
+            parent->push(dynamic_cast<Config::Object *>(current));
         } else {
-            parent->push(m_keys.top(), dynamic_cast<Object *>(current));
+            parent->push(m_keys.top(), dynamic_cast<Config::Object *>(current));
             m_keys.pop();
         }
     }
 
     void Parser::openArray() {
         Debug("Openning Array");
-        m_parents.push(new Array());
+        m_parents.push(new Config::Array());
         m_type.push(ArrayType);
         m_type.push(ValueType);
     }
@@ -75,18 +75,18 @@ namespace JSON {
         }
         m_type.pop();
 
-        AObject *current = m_parents.top();
+        Config::AObject *current = m_parents.top();
         m_parents.pop();
         if (m_parents.empty()) {
             Debug("Array end");
             return;
         }
-        AObject *parent = m_parents.top();
-        Array *parentArray = dynamic_cast<Array*>(parent);
+        Config::AObject *parent = m_parents.top();
+        Config::Array *parentArray = dynamic_cast<Config::Array*>(parent);
         if (parentArray) {
-            parent->push(dynamic_cast<Array *>(current));
+            parent->push(dynamic_cast<Config::Array *>(current));
         } else {
-            parent->push(m_keys.top(), dynamic_cast<Array *>(current));
+            parent->push(m_keys.top(), dynamic_cast<Config::Array *>(current));
             m_keys.pop();
         }
     }
@@ -194,7 +194,7 @@ namespace JSON {
         }
     }
 
-    Object &Parser::Parse() {
+    Config::Object &Parser::Parse() {
         if (!m_file->is_open()) {
             throw std::runtime_error("Cannot open file");
         }

@@ -3,9 +3,9 @@
 //
 
 #include <stdexcept>
-#include "AObject.hpp"
+#include "../../include/Config/AObject.hpp"
 
-namespace JSON {
+namespace Config {
     AObject::AObject() {
 
     }

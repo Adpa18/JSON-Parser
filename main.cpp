@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Parser.hpp"
+#include "include/Parser.hpp"
 
 #include <list>
 #include <dirent.h>
@@ -43,8 +43,8 @@ void    UnitTests() {
 //
 //    unsigned nbTest = 0;
 //    for (std::string file: files) {
-//        JSON::Parser parser("Tests/" + file);
-//        JSON::Object *object = parser.Parse();
+//        Config::Parser parser("Tests/" + file);
+//        Config::Object *object = parser.Parse();
 //
 //        std::stringstream ss;
 //
@@ -58,8 +58,8 @@ void    UnitTests() {
 }
 
 int main() {
-//    JSON::Object    *object = new JSON::Object();
-//    JSON::Object    *object2 = new JSON::Object();
+//    Config::Object    *object = new Config::Object();
+//    Config::Object    *object2 = new Config::Object();
 //
 //    object2->set("toto", "cc");
 //    object->set("tata", 3);
@@ -74,7 +74,7 @@ int main() {
 //    UnitTests();
 
     JSON::Parser parser("test.json");
-    JSON::Object object = parser.Parse();
+    Config::Object &object = parser.Parse();
     std::cout << object << std::endl;
     std::cout << object["toto"] << std::endl;
     object["toto"] = 3;

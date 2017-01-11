@@ -6,8 +6,8 @@
 #define JSONPARSER_PARSER_HPP
 
 #include <stack>
-#include "Object.hpp"
-#include "Array.hpp"
+#include "Config/Object.hpp"
+#include "Config/Array.hpp"
 
 namespace JSON {
     class Parser {
@@ -22,18 +22,18 @@ namespace JSON {
         Parser(std::string const &filename);
         ~Parser();
 
-        Object &Parse();
+        Config::Object &Parse();
 
     private:
         std::ifstream   *m_file;
-        Object          *m_json;
+        Config::Object  *m_json;
         std::stack<ParsingType> m_type;
 
         std::string             m_key;
         std::string             m_value;
         std::stack<std::string> m_keys;
 
-        std::stack<AObject*>    m_parents;
+        std::stack<Config::AObject*>    m_parents;
 
         bool                    gettingString;
         bool                    isValueIsString;

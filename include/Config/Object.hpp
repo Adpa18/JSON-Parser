@@ -9,7 +9,7 @@
 #include "AObject.hpp"
 #include "Value.hpp"
 
-namespace JSON {
+namespace Config {
     class Object: public AObject {
     public:
         Object();

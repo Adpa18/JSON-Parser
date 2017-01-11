@@ -3,11 +3,11 @@
 //
 
 #include <sstream>
-#include "Value.hpp"
-#include "Array.hpp"
-#include "Object.hpp"
+#include "../../include/Config/Value.hpp"
+#include "../../include/Config/Array.hpp"
+#include "../../include/Config/Object.hpp"
 
-namespace JSON {
+namespace Config {
     Value::~Value() {
         deleteValue();
     }
