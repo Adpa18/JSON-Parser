@@ -17,23 +17,23 @@ namespace Config {
         }
     }
 
-    Array::ValueList   const& Array::getValues() const {
+    Array::ValueList const &Array::getValues() const {
         return m_array;
     }
 
-    Array::ValueList   const& Array::operator*() const {
+    Array::ValueList const &Array::operator*() const {
         return m_array;
     }
 
-    Value& Array::operator[](unsigned int key) {
+    Value &Array::operator[](unsigned int key) {
         return *m_array[key];
     }
 
-    const Value& Array::operator[](unsigned int key) const {
+    const Value &Array::operator[](unsigned int key) const {
         return *m_array[key];
     }
 
-    Value& Array::get(unsigned int key) const {
+    Value &Array::get(unsigned int key) const {
         if (key >= m_array.size() || m_array[key]->GetType() == UNKNOWN) {
             throw std::runtime_error("Bad key " + key);
         }
@@ -109,7 +109,7 @@ namespace Config {
     }
 
     std::string const Array::toString() const {
-        std::stringstream   ss;
+        std::stringstream ss;
 
         ss << "[";
         Array::ValueList::const_iterator last_it = --m_array.end();

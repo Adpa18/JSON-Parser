@@ -20,36 +20,51 @@ namespace JSON {
 
     public:
         Parser(std::string const &filename);
+
         ~Parser();
 
         Config::Object &Parse();
 
     private:
-        std::ifstream   *m_file;
-        Config::Object  *m_json;
+        std::ifstream *m_file;
+        Config::Object *m_json;
         std::stack<ParsingType> m_type;
 
-        std::string             m_key;
-        std::string             m_value;
+        std::string m_key;
+        std::string m_value;
         std::stack<std::string> m_keys;
 
-        std::stack<Config::AObject*>    m_parents;
+        std::stack<Config::AObject *> m_parents;
 
-        bool                    gettingString;
-        bool                    isValueIsString;
+        bool gettingString;
+        bool isValueIsString;
 
     private:
-        void    act(char c);
+        void act(char c);
 
         void openObject();
+
         void closeObject();
 
         void openArray();
+
         void closeArray();
 
         void gettingKey(char c);
+
         void gettingValue(char c);
+
         void savingKeyValue();
+
+        void pushChar(char value);
+
+        void pushInt(int value);
+
+        void pushFloat(float value);
+
+        void pushDouble(double value);
+
+        void pushString();
     };
 }
 

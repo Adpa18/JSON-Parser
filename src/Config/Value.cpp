@@ -63,49 +63,49 @@ namespace Config {
         this->m_value.object = value;
     }
 
-    Value   &Value::operator=(char value) {
+    Value &Value::operator=(char value) {
         deleteValue();
         m_type = CHAR;
         this->m_value.c = value;
         return *this;
     }
 
-    Value   &Value::operator=(int value) {
+    Value &Value::operator=(int value) {
         deleteValue();
         m_type = INT;
         this->m_value.i = value;
         return *this;
     }
 
-    Value   &Value::operator=(float value) {
+    Value &Value::operator=(float value) {
         deleteValue();
         m_type = FLOAT;
         this->m_value.f = value;
         return *this;
     }
 
-    Value   &Value::operator=(double value) {
+    Value &Value::operator=(double value) {
         deleteValue();
         m_type = DOUBLE;
         this->m_value.d = value;
         return *this;
     }
 
-    Value   &Value::operator=(std::string value) {
+    Value &Value::operator=(std::string value) {
         deleteValue();
         m_type = STRING;
         this->m_value.s = new std::string(value);
         return *this;
     }
 
-    Value   &Value::operator=(Array *value) {
+    Value &Value::operator=(Array *value) {
         deleteValue();
         m_type = ARRAY;
         this->m_value.array = value;
         return *this;
     }
 
-    Value   &Value::operator=(Object *value) {
+    Value &Value::operator=(Object *value) {
         deleteValue();
         m_type = OBJECT;
         this->m_value.object = value;
@@ -199,6 +199,7 @@ namespace Config {
     std::ostream &operator<<(std::ostream &os, const Value &value) {
         return os << value.toString();
     }
+
     std::ostream &operator<<(std::ostream &os, const Value *value) {
         return operator<<(os, *value);
     }

@@ -7,7 +7,7 @@
 
 //#define DEBUG_MODE
 
-void    Debug(std::string const &txt) {
+void Debug(std::string const &txt) {
 #ifdef DEBUG_MODE
     std::cerr << txt << std::endl;
 #endif
@@ -51,7 +51,7 @@ namespace JSON {
             return;
         }
         Config::AObject *parent = m_parents.top();
-        Config::Array *parentArray = dynamic_cast<Config::Array*>(parent);
+        Config::Array *parentArray = dynamic_cast<Config::Array *>(parent);
         if (parentArray) {
             parent->push(dynamic_cast<Config::Object *>(current));
         } else {
@@ -82,7 +82,7 @@ namespace JSON {
             return;
         }
         Config::AObject *parent = m_parents.top();
-        Config::Array *parentArray = dynamic_cast<Config::Array*>(parent);
+        Config::Array *parentArray = dynamic_cast<Config::Array *>(parent);
         if (parentArray) {
             parent->push(dynamic_cast<Config::Array *>(current));
         } else {
@@ -123,8 +123,86 @@ namespace JSON {
             return;
         }
         if (!isValueIsString) {
-            //TODO get value type
+            size_t pos = m_value.find_last_of(".");
+            if (pos == std::string::npos) {
+                int value = std::atoi(m_value.c_str());
+                if (value > -255 && value < 255) {
+                    pushChar(static_cast<char>(value));
+                } else {
+                    pushInt(value);
+                }
+            } else {
+                double value = std::atof(m_value.c_str());
+                if (pos + 15 < m_value.length()) {
+                    pushDouble(value);
+                } else {
+                    pushFloat(static_cast<float>(value));
+                }
+            }
+        } else {
+            pushString();
         }
+
+        m_value = "";
+    }
+
+    void Parser::pushChar(char value) {
+        switch (m_type.top()) {
+            case ObjectType:
+                m_parents.top()->push(m_keys.top(), value);
+                m_keys.pop();
+                break;
+            case ArrayType:
+                m_parents.top()->push(value);
+                break;
+            default:
+                throw std::runtime_error("Bad type need ObjectType or ArrayType");
+        }
+    }
+
+    void Parser::pushInt(int value) {
+        switch (m_type.top()) {
+            case ObjectType:
+                m_parents.top()->push(m_keys.top(), value);
+                m_keys.pop();
+                break;
+            case ArrayType:
+                m_parents.top()->push(value);
+                break;
+            default:
+                throw std::runtime_error("Bad type need ObjectType or ArrayType");
+        }
+    }
+
+    void Parser::pushFloat(float value) {
+        switch (m_type.top()) {
+            case ObjectType:
+                m_parents.top()->push(m_keys.top(), value);
+                m_keys.pop();
+                break;
+            case ArrayType:
+                m_parents.top()->push(value);
+                break;
+            default:
+                throw std::runtime_error("Bad type need ObjectType or ArrayType");
+        }
+    }
+
+    void Parser::pushDouble(double value) {
+        switch (m_type.top()) {
+            case ObjectType:
+                m_parents.top()->push(m_keys.top(), value);
+                m_keys.pop();
+                break;
+            case ArrayType:
+                m_parents.top()->push(value);
+                break;
+            default:
+                throw std::runtime_error("Bad type need ObjectType or ArrayType");
+        }
+    }
+
+    void Parser::pushString() {
         switch (m_type.top()) {
             case ObjectType:
                 m_parents.top()->push(m_keys.top(), m_value);
@@ -136,7 +214,6 @@ namespace JSON {
             default:
                 throw std::runtime_error("Bad type need ObjectType or ArrayType");
         }
-        m_value = "";
     }
 
     void Parser::act(char c) {

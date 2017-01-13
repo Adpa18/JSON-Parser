@@ -7,15 +7,14 @@
 #include <fstream>
 #include <streambuf>
 
-std::list<std::string>  getAllFilesRecurive(std::string const &folder, std::string const &parent = "") {
-    std::list<std::string>  files;
+std::list<std::string> getAllFilesRecurive(std::string const &folder, std::string const &parent = "") {
+    std::list<std::string> files;
 
-    DIR             *dir;
-    struct dirent   *ent;
+    DIR *dir;
+    struct dirent *ent;
 
     if ((dir = opendir(folder.c_str())) != NULL) {
-        while ((ent = readdir(dir)) != NULL)
-        {
+        while ((ent = readdir(dir)) != NULL) {
             std::string filename = std::string(ent->d_name);
             if (filename == "." || filename == "..") {
                 continue;
@@ -38,7 +37,7 @@ std::string readFile(std::string const &filename) {
     return std::string((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
 }
 
-void    UnitTests() {
+void UnitTests() {
 //    std::list<std::string> files = getAllFilesRecurive("Tests");
 //
 //    unsigned nbTest = 0;
@@ -76,9 +75,9 @@ int main() {
     JSON::Parser parser("test.json");
     Config::Object &object = parser.Parse();
     std::cout << object << std::endl;
-    std::cout << object["toto"] << std::endl;
-    object["toto"] = 3;
-    std::cout << object["toto"] << std::endl;
-    std::cout << object["tata"].GetArray()[0].GetString() << std::endl;
+//    std::cout << object["toto"] << std::endl;
+//    object["toto"] = 3;
+//    std::cout << object["toto"] << std::endl;
+//    std::cout << object["tata"].GetArray()[0].GetString() << std::endl;
     return 0;
 }

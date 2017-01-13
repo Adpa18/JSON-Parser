@@ -17,19 +17,19 @@ namespace Config {
         }
     }
 
-    Object::ValueMap    const &Object::getValues() const {
+    Object::ValueMap const &Object::getValues() const {
         return m_values;
     };
 
-    Object::ValueMap    const& Object::operator*() const {
+    Object::ValueMap const &Object::operator*() const {
         return m_values;
     }
 
-    Value& Object::operator[](std::string const &key) {
+    Value &Object::operator[](std::string const &key) {
         return get(key);
     }
 
-    Value const & Object::operator[](std::string const &key) const {
+    Value const &Object::operator[](std::string const &key) const {
         return get(key);
     }
 
@@ -109,7 +109,7 @@ namespace Config {
     }
 
     std::string const Object::toString() const {
-        std::stringstream   ss;
+        std::stringstream ss;
         ss << "{";
         Object::ValueMap::const_iterator last_it = --m_values.end();
         for (Object::ValueMap::const_iterator it = m_values.begin(); it != m_values.end(); ++it) {
