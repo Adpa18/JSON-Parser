@@ -17,9 +17,18 @@ namespace Config {
         }
     }
 
-    Object::ValueMap const &Object::getValues() const {
+    Object::ValueMap const &Object::GetValues() const {
         return m_values;
     };
+
+    std::vector<std::string> const Object::GetKeys() const {
+        std::vector<std::string>    keys;
+
+        for (ValueMap::const_iterator it = m_values.begin(); it != m_values.end(); ++it) {
+            keys.push_back(it->first);
+        }
+        return keys;
+    }
 
     Object::ValueMap const &Object::operator*() const {
         return m_values;

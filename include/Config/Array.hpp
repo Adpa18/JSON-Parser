@@ -22,7 +22,7 @@ namespace Config {
         ValueList m_array;
 
     public:
-        ValueList const &getValues() const;
+        ValueList const &GetValues() const;
 
     public:
         ValueList const &operator*() const;

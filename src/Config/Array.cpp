@@ -17,7 +17,7 @@ namespace Config {
         }
     }
 
-    Array::ValueList const &Array::getValues() const {
+    Array::ValueList const &Array::GetValues() const {
         return m_array;
     }
 

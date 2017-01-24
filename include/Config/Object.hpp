@@ -6,6 +6,7 @@
 #define JSONPARSER_OBJECT_HPP
 
 #include <map>
+#include <vector>
 #include "AObject.hpp"
 #include "Value.hpp"
 
@@ -21,7 +22,9 @@ namespace Config {
         ValueMap m_values;
 
     public:
-        ValueMap const &getValues() const;
+        ValueMap const &GetValues() const;
+
+        std::vector<std::string> const GetKeys() const;
 
         ValueMap const &operator*() const;
 

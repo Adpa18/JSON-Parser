@@ -75,6 +75,10 @@ int main() {
     JSON::Parser parser("test.json");
     Config::Object &object = parser.Parse();
     std::cout << object << std::endl;
+    for (std::string str: object.GetKeys()) {
+        std::cout << "Key : " << str << std::endl;
+    }
+
 //    std::cout << object["toto"] << std::endl;
 //    object["toto"] = 3;
 //    std::cout << object["toto"] << std::endl;
